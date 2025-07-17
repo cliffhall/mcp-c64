@@ -1,0 +1,5 @@
+.idea/
+.env
+**/*.prg
+**/*.map
+node_modules
