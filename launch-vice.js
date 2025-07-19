@@ -6,4 +6,4 @@ dotenv.config({ path: `.env` });
 console.log(process.env.VICE_PATH)
 
 // Launch VICE
-spawn(process.env.VICE_PATH);
+spawn(process.env.VICE_PATH, ["-autostart", "/Users/cliffhall/Projects/mcp-c64/src/asm/hello-world.prg", "-logfile", "/Users/cliffhall/Projects/mcp-c64/src/asm/hello-world.log"]);
