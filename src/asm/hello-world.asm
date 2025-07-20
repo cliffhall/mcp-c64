@@ -18,15 +18,14 @@ TEXT_COLOR       = $05   ; White text
 start:
   jsr RESET_OUTPUT
   jsr CLRSCR
-;  clc
-;  lda SCREEN_COLOR
-;  sta SET_BORDER_COLOR
-;  sta SET_SCREEN_COLOR
-;  lda TEXT_COLOR
-;  sta SET_TEXT_COLOR
-  ldy $0        ; Index for string
+  lda SCREEN_COLOR
+  sta SET_BORDER_COLOR
+  sta SET_SCREEN_COLOR
+  lda TEXT_COLOR
+  sta SET_TEXT_COLOR
+  ldy #$0       ; Index for string
+
 loop:
-  clc           ; Clear carry for next character
   lda message,y ; Load next character from message
   beq done      ; End of string (true if null terminator loaded)
   jsr CHROUT    ; output character
