@@ -7,7 +7,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "tass": "cd src/asm && 64tass -a hello-world.asm -o hello-world.prg --map hello-world.map && cd ..",
+    "tass": "cd src/asm && 64tass --cbm-prg -a hello-world.asm -o hello-world.prg --map hello-world.map && cd ..",
     "vice": "node launch-vice.js"
   },
   "devDependencies": {
