@@ -14,35 +14,37 @@ interface AssembleProgramParams {
 /**
  * Assemble a program
  */
-export async function assembleProgram({command, sourcePath, args}: AssembleProgramParams): Promise<AssemblerResponse> {
+export function assembleProgram({command, sourcePath, args}: AssembleProgramParams): Promise<AssemblerResponse> {
+  return new Promise((resolve, reject) => {
+    const commandArgs = args ?? [];
 
-  const commandArgs = args || [];
-  const child = spawn(command, [sourcePath, ...commandArgs]);
+    const child = spawn(command, [sourcePath, ...commandArgs]);
 
-  let stdoutData = '';
-  let stderrData = '';
-  let exitCode: number|null;
-  let response: AssemblerResponse|null = null;
+    let stdoutData = '';
+    let stderrData = '';
 
-  child.stdout.on('data', (data) => {
-    stdoutData += data.toString(); // Collect standard output
-  });
+    child.stdout.on('data', (data) => {
+      stdoutData += data.toString();
+    });
 
-  child.stderr.on('data', (data) => {
-    stderrData += data.toString(); // Collect standard error
-  });
+    child.stderr.on('data', (data) => {
+      stderrData += data.toString();
+    });
 
-  child.on('close', (code) => {
-    exitCode = code;
-    response = {
-      output: (exitCode === 0) ? stdoutData : stderrData,
-      status: exitCode as number
-    }
-  });
+    // This event is fired if the command cannot be spawned, etc.
+    child.on('error', (err) => {
+      reject(err);
+    });
 
-  while (!response) {}
+    // Use the 'close' event to ensure all I/O streams are closed.
+    child.on('close', (code) => {
+      // The exit code can be null; default to 0 for success if so.
+      const exitCode = code ?? 0;
 
-  return new Promise((resolve) => {
-    resolve(response as AssemblerResponse);
+      resolve({
+        output: (exitCode === 0) ? stdoutData : stderrData,
+        status: exitCode,
+      });
+    });
   });
 }

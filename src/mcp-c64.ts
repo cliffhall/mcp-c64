@@ -1,6 +1,7 @@
 import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
+  JSONRPCRequestSchema
 } from "@modelcontextprotocol/sdk/types.js";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
@@ -9,7 +10,9 @@ import {
   assembleProgram,
 } from "./operations/assembler.ts";
 import {AssembleProgramSchema} from "./common/schemas.js";
+import dotenv from "dotenv";
 
+dotenv.config({ path: `.env`, quiet: true });
 
 export const createServer = () => {
   // Instantiate the MCP server
@@ -45,6 +48,7 @@ export const createServer = () => {
           const args = AssembleProgramSchema.parse(request.params.arguments);
           const result = await assembleProgram({...args});
           return {
+            structuredContent: result,
             content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
           };
         }

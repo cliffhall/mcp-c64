@@ -1,3 +1,4 @@
+import dotenv from "dotenv";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { createInterface } from "node:readline";
@@ -22,6 +23,7 @@ const readline = createInterface({
   output: process.stdout,
 });
 
+console.log(process.cwd())
 // Track received notifications for debugging resumability
 let notificationCount = 0;
 
@@ -123,7 +125,7 @@ function commandLoop(): void {
 
         case "quit":
         case "exit":
-          await cleanup();
+          await quit();
           return;
 
         default:
@@ -148,32 +150,26 @@ async function connect(url?: string): Promise<void> {
     return;
   }
 
-  if (url) {
-    serverUrl = url;
-  }
-
-  console.log(`Connecting to ${serverUrl}...`);
-
   try {
     // Create a new client
     client = new Client({
-      name: "example-client",
+      name: "repl",
       version: "1.0.0",
     });
     client.onerror = errorHandler;
 
-    const command = "node dist/mcp-64.js";
-
+    const command = "node";
     console.log(`STDIO transport: command=${command}`);
 
     const transport = new StdioClientTransport({
-      command: cmd,
-      args,
-      env,
+      command,
+      args: ["dist/index.js"],
+      env: {
+        srcPath: process.env.SRC_PATH || '.',
+        vicePath: process.env.VICE_PATH || '.'
+      },
       stderr: "pipe",
     });
-
-    await transport.start();
 
     // Set up notification handlers
     client.setNotificationHandler(
@@ -219,9 +215,7 @@ async function connect(url?: string): Promise<void> {
 
     // Connect the client
     await client.connect(transport);
-    sessionId = transport.sessionId;
-    console.log("Transport created with session ID:", sessionId);
-    console.log("Connected to MCP server");
+    console.log("Connected to mcp-c64 server");
   } catch (error) {
     if (error instanceof Error) errorHandler(error);
     client = null;
@@ -283,13 +277,12 @@ async function callTool( name: string, args: Record<string, unknown>): Promise<v
     });
 
     console.log("Tool result:");
-    result?.content?.forEach((item) => {
-      if (item.type === "text") {
-        console.log(`  ${item.text}`);
-      } else {
-        console.log(`  ${item.type} content:`, item);
-      }
-    });
+    if (result.structuredContent){
+      console.log(result.structuredContent);
+    } else if (result.content) {
+      console.log(result.content);
+    }
+
   } catch (error) {
     console.log(`Error calling tool ${name}: ${error}`);
   }
@@ -380,27 +373,7 @@ async function listResources(): Promise<void> {
   }
 }
 
-async function cleanup(): Promise<void> {
-  if (client && transport) {
-    try {
-      // Rry to terminate the session gracefully
-      if (transport.sessionId) {
-        try {
-          console.log("Terminating session before exit...");
-          await transport.terminateSession();
-          console.log("Session terminated successfully");
-        } catch (error) {
-          console.error("Error terminating session:", error);
-        }
-      }
-
-      // Then close the transport
-      await transport.close();
-    } catch (error) {
-      console.error("Error closing transport:", error);
-    }
-  }
-
+async function quit(): Promise<void> {
   process.stdin.setRawMode(false);
   readline.close();
   console.log("\nGoodbye!");
@@ -416,7 +389,7 @@ process.stdin.on("data", async (data) => {
 
     // Abort the current operation and disconnect from the server
     if (client && transport) {
-      await disconnect();
+      await quit();
       console.log("Disconnected. Press Enter to continue.");
     } else {
       console.log("Not connected to server.");
@@ -430,7 +403,7 @@ process.stdin.on("data", async (data) => {
 // Handle Ctrl+C
 process.on("SIGINT", async () => {
   console.log("\nReceived SIGINT. Cleaning up...");
-  await cleanup();
+  await quit();
 });
 
 // Start the interactive client

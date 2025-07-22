@@ -17,7 +17,8 @@
     "build": "node esbuild.config.cjs && echo '{\"type\": \"commonjs\"}' > dist/package.json",
     "inspector": "npx @modelcontextprotocol/inspector",
     "tass": "cd asm/hello && 64tass --cbm-prg -a hello-world.asm -o hello-world.prg --map hello-world.map && cd ../..",
-    "vice": "node launch-vice.js"
+    "vice": "node launch-vice.js",
+    "repl": "node dist/repl.js"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
@@ -34,7 +35,7 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
-    "@modelcontextprotocol/inspector": "^0.12.0",
+    "@modelcontextprotocol/inspector": "^0.16.1",
     "@modelcontextprotocol/sdk": "^1.16.0",
     "@types/node": "^24.0.15",
     "spawn-rx": "^5.1.2"
