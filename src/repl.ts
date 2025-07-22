@@ -23,7 +23,6 @@ const readline = createInterface({
   output: process.stdout,
 });
 
-console.log(process.cwd())
 // Track received notifications for debugging resumability
 let notificationCount = 0;
 

@@ -7,18 +7,25 @@ interface AssemblerResponse {
 
 interface AssembleProgramParams {
   command: string;
-  sourcePath: string;
+  path: string;
+  file: string,
   args?: string[];
 }
 
 /**
  * Assemble a program
  */
-export function assembleProgram({command, sourcePath, args}: AssembleProgramParams): Promise<AssemblerResponse> {
+export function assembleProgram({command, path, file, args}: AssembleProgramParams): Promise<AssemblerResponse> {
   return new Promise((resolve, reject) => {
     const commandArgs = args ?? [];
 
-    const child = spawn(command, [sourcePath, ...commandArgs]);
+    const name = file.replace(/\.[^/.]+$/, "");
+    const source = `${path}/${file}`;
+    const output = `${path}/${name}.prg`;
+    const map = `${path}/${name}.map`;
+
+
+    const child = spawn(command, [source, "-o", output, "--map", map, ...commandArgs])
 
     let stdoutData = '';
     let stderrData = '';

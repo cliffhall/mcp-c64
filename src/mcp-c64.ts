@@ -1,7 +1,6 @@
 import {
   CallToolRequestSchema,
-  ListToolsRequestSchema,
-  JSONRPCRequestSchema
+  ListToolsRequestSchema
 } from "@modelcontextprotocol/sdk/types.js";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
@@ -45,8 +44,16 @@ export const createServer = () => {
     try {
       switch (request.params.name) {
         case "assemble_program": {
+          const command = process.env.ASSEMBLER;
+          if (!command) {
+            throw new Error("ASSEMBLER environment variable not set");
+          }
+          const path = process.env.SRC_PATH;
+          if (!path) {
+            throw new Error("SRC_PATH environment variable not set");
+          }
           const args = AssembleProgramSchema.parse(request.params.arguments);
-          const result = await assembleProgram({...args});
+          const result = await assembleProgram({command, path, ...args});
           return {
             structuredContent: result,
             content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
