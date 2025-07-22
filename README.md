@@ -1,7 +1,9 @@
 # MCP Server for Commodore 64 Assembly Development
 
 ## Status
-**WIP** - Still getting a working C64 development workflow together
+**WIP** - 
+* Development setup working (64tass assembler, VICE C64 emulator)
+* MCP Server and REPL working
 
 ## Requirements
 
@@ -21,4 +23,12 @@
     
 * **.env** - Environment file
   * Create file `.env`  in the root of the project by copying `.env-example` 
-  * Add var `VICE_PATH` pointing to the VICE `x64sc` program on your system (if different from example)
+  * Add vars
+  * `ASSEMBLER` - executable name (full path if not in PATH)
+  * `VICE_PATH` - pointing to the VICE `x64sc` program on your system (if different from example)
+  * `SRC_PATH`  - pointing to your assembly source folder
+  ```bash
+    ASSEMBLER=64tass
+    SRC_PATH=/Users/cliffhall/Projects/mcp-c64/asm/hello
+    VICE_PATH=/Users/cliffhall/vice/x64sc.app/Contents/MacOS/x64sc
+  ```
