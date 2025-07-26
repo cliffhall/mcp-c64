@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config({ path: `.env`, quiet: true });
+
 import {
   CallToolRequestSchema,
   ListToolsRequestSchema
@@ -6,12 +9,11 @@ import { zodToJsonSchema } from "zod-to-json-schema";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { VERSION} from "./common/version.js";
 import {
+  AssembleProgramSchema,
   assembleProgram,
+  AssembleProgramParams,
+  AssembleProgramResponse
 } from "./operations/assembler.ts";
-import {AssembleProgramSchema} from "./common/schemas.js";
-import dotenv from "dotenv";
-
-dotenv.config({ path: `.env`, quiet: true });
 
 export const createServer = () => {
   // Instantiate the MCP server
@@ -33,7 +35,7 @@ export const createServer = () => {
       tools: [
         {
           name: "assemble_program",
-          description: "Assemble a program",
+          description: `Assemble a program.\n\tOnly .asm source filename is required in file parameter, output .prg and .map files will be generated.\n\tAny additional args such as -a, -cbm-prg, etc. should be supplied in an array in the args parameter.`,
           inputSchema: zodToJsonSchema(AssembleProgramSchema),
         }
       ],
@@ -44,16 +46,24 @@ export const createServer = () => {
     try {
       switch (request.params.name) {
         case "assemble_program": {
-          const command = process.env.ASSEMBLER;
+          // Process the parameters
+          const params = AssembleProgramSchema.parse(request.params.arguments);
+          const command = params.command ?? process.env.ASSEMBLER;
+          const path = params.path ?? process.env.SRC_PATH;
           if (!command) {
-            throw new Error("ASSEMBLER environment variable not set");
+            throw new Error("Assembler command is not defined. Provide it in the call or set ASSEMBLER in the environment.");
           }
-          const path = process.env.SRC_PATH;
           if (!path) {
-            throw new Error("SRC_PATH environment variable not set");
+            throw new Error("Source path is not defined. Provide it in the call or set SRC_PATH in the environment.");
           }
-          const args = AssembleProgramSchema.parse(request.params.arguments);
-          const result = await assembleProgram({command, path, ...args});
+          const operationParams: AssembleProgramParams = {
+            command,
+            path,
+            "file": params.file,
+            "args": params.args,
+          };
+
+          const result: AssembleProgramResponse = await assembleProgram(operationParams);
           return {
             structuredContent: result,
             content: [{ type: "text", text: JSON.stringify(result, null, 2) }],

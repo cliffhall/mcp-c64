@@ -18,7 +18,9 @@
     "inspector": "npx @modelcontextprotocol/inspector",
     "tass": "cd asm/hello && 64tass --cbm-prg -a hello-world.asm -o hello-world.prg --map hello-world.map && cd ../..",
     "vice": "node launch-vice.js",
-    "repl": "node dist/repl.js"
+    "repl": "node dist/repl.js",
+    "prettier-fix": "prettier --write ./src/**/*.ts",
+    "prettier-check": "prettier --check ./src/**/*.ts"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

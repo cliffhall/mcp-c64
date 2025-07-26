@@ -7,14 +7,7 @@ import {
   ListToolsResultSchema,
   CallToolRequest,
   CallToolResultSchema,
-  ListPromptsRequest,
-  ListPromptsResultSchema,
-  GetPromptRequest,
-  GetPromptResultSchema,
-  ListResourcesRequest,
-  ListResourcesResultSchema,
-  LoggingMessageNotificationSchema,
-  ResourceListChangedNotificationSchema,
+  LoggingMessageNotificationSchema
 } from "@modelcontextprotocol/sdk/types.js";
 
 // Create readline interface for user input
@@ -29,9 +22,7 @@ let notificationCount = 0;
 // Global client and transport for interactive commands
 let client: Client | null = null;
 let transport: StdioClientTransport | null = null;
-let serverUrl = "http://localhost:3001/mcp";
 let notificationsToolLastEventId: string | undefined = undefined;
-let sessionId: string | undefined = undefined;
 
 const errorHandler = (error: Error) => {
   if (error?.cause && JSON.stringify(error.cause).includes("ECONNREFUSED")) {
@@ -60,8 +51,6 @@ function printHelp(): void {
   console.log("  help                       - Show this help");
   console.log("  list-tools                 - List available tools");
   console.log("  call-tool <name> [args]    - Call a tool with optional JSON arguments");
-  console.log("  list-resources             - List available resources");
-  console.log("  terminate-session          - Terminate the current session");
   console.log("  quit                       - Exit the program");
 }
 
@@ -91,31 +80,6 @@ function commandLoop(): void {
             }
             await callTool(toolName, toolArgs);
           }
-          break;
-
-        case "list-prompts":
-          await listPrompts();
-          break;
-
-        case "get-prompt":
-          if (args.length < 2) {
-            console.log("Usage: get-prompt <name> [args]");
-          } else {
-            const promptName = args[1];
-            let promptArgs = {};
-            if (args.length > 2) {
-              try {
-                promptArgs = JSON.parse(args.slice(2).join(" "));
-              } catch {
-                console.log("Invalid JSON arguments. Using empty args.");
-              }
-            }
-            await getPrompt(promptName, promptArgs);
-          }
-          break;
-
-        case "list-resources":
-          await listResources();
           break;
 
         case "help":
@@ -163,10 +127,6 @@ async function connect(url?: string): Promise<void> {
     const transport = new StdioClientTransport({
       command,
       args: ["dist/index.js"],
-      env: {
-        srcPath: process.env.SRC_PATH || '.',
-        vicePath: process.env.VICE_PATH || '.'
-      },
       stderr: "pipe",
     });
 
@@ -179,34 +139,6 @@ async function connect(url?: string): Promise<void> {
           `\nNotification #${notificationCount}: ${notification.params.level} - ${notification.params.data}`,
         );
 
-        // Re-display the prompt
-        process.stdout.write("> ");
-      },
-    );
-
-    client.setNotificationHandler(
-      ResourceListChangedNotificationSchema,
-      async () => {
-        console.log(`\nResource list changed notification received!`);
-        try {
-          if (!client) {
-            console.log("Client disconnected, cannot fetch resources");
-            return;
-          }
-          const resourcesResult = await client.request(
-            {
-              method: "resources/list",
-              params: {},
-            },
-            ListResourcesResultSchema,
-          );
-          console.log(
-            "Available resources count:",
-            resourcesResult.resources.length,
-          );
-        } catch {
-          console.log("Failed to list resources after change notification");
-        }
         // Re-display the prompt
         process.stdout.write("> ");
       },
@@ -284,91 +216,6 @@ async function callTool( name: string, args: Record<string, unknown>): Promise<v
 
   } catch (error) {
     console.log(`Error calling tool ${name}: ${error}`);
-  }
-}
-
-async function listPrompts(): Promise<void> {
-  if (!client) {
-    console.log("Not connected to server.");
-    return;
-  }
-
-  try {
-    const promptsRequest: ListPromptsRequest = {
-      method: "prompts/list",
-      params: {},
-    };
-    const promptsResult = await client.request(
-      promptsRequest,
-      ListPromptsResultSchema,
-    );
-    console.log("Available prompts:");
-    if (promptsResult.prompts.length === 0) {
-      console.log("  No prompts available");
-    } else {
-      for (const prompt of promptsResult.prompts) {
-        console.log(`  - ${prompt.name}: ${prompt.description}`);
-      }
-    }
-  } catch (error) {
-    console.log(`Prompts not supported by this server (${error})`);
-  }
-}
-
-async function getPrompt( name: string, args: Record<string, unknown>,): Promise<void> {
-  if (!client) {
-    console.log("Not connected to server.");
-    return;
-  }
-
-  try {
-    const promptRequest: GetPromptRequest = {
-      method: "prompts/get",
-      params: {
-        name,
-        arguments: args as Record<string, string>,
-      },
-    };
-
-    const promptResult = await client.request(
-      promptRequest,
-      GetPromptResultSchema,
-    );
-    console.log("Prompt template:");
-    promptResult.messages.forEach((msg, index) => {
-      console.log(`  [${index + 1}] ${msg.role}: ${msg.content.text}`);
-    });
-  } catch (error) {
-    console.log(`Error getting prompt ${name}: ${error}`);
-  }
-}
-
-async function listResources(): Promise<void> {
-  if (!client) {
-    console.log("Not connected to server.");
-    return;
-  }
-
-  try {
-    const resourcesRequest: ListResourcesRequest = {
-      method: "resources/list",
-      params: {},
-    };
-    const resourcesResult = await client.request(
-      resourcesRequest,
-      ListResourcesResultSchema,
-    );
-
-    console.log("Available resources:");
-    if (resourcesResult.resources.length === 0) {
-      console.log("  No resources available");
-    } else {
-      for (const resource of resourcesResult.resources) {
-        console.log(`  - ${resource.name}: ${resource.uri}`);
-      }
-    }
-  } catch (error) {
-    console.log(`Resources not supported by this server (${error})`);
   }
 }
 

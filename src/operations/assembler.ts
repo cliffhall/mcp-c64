@@ -1,55 +1,76 @@
-import {spawn} from 'child_process';
+import { spawn } from "child_process";
+import { join, parse } from "path";
+import { z } from "zod";
 
-interface AssemblerResponse {
+export const AssembleProgramSchema = z.object({
+  // 'file' is the only truly required parameter from the caller.
+  file: z.string().nonempty("File is required"),
+
+  // These are optional overrides.
+  command: z.string().nonempty().optional(),
+  path: z.string().nonempty().optional(),
+  args: z.array(z.string()).optional(),
+});
+
+export interface AssembleProgramResponse {
   output: string;
+  error: string;
   status: number;
 }
 
-interface AssembleProgramParams {
+export interface AssembleProgramParams {
   command: string;
   path: string;
-  file: string,
+  file: string;
   args?: string[];
 }
 
 /**
  * Assemble a program
  */
-export function assembleProgram({command, path, file, args}: AssembleProgramParams): Promise<AssemblerResponse> {
+export function assembleProgram({
+  command,
+  path,
+  file,
+  args,
+}: AssembleProgramParams): Promise<AssembleProgramResponse> {
   return new Promise((resolve, reject) => {
     const commandArgs = args ?? [];
 
-    const name = file.replace(/\.[^/.]+$/, "");
-    const source = `${path}/${file}`;
-    const output = `${path}/${name}.prg`;
-    const map = `${path}/${name}.map`;
+    const name = parse(file).name;
+    const source = join(path, file);
+    const output = join(path, `${name}.prg`);
+    const map = join(path, `${name}.map`);
 
+    const child = spawn(command, [
+      source,
+      "-o",
+      output,
+      "--map",
+      map,
+      ...commandArgs,
+    ]);
 
-    const child = spawn(command, [source, "-o", output, "--map", map, ...commandArgs])
+    let stdoutData = "";
+    let stderrData = "";
 
-    let stdoutData = '';
-    let stderrData = '';
-
-    child.stdout.on('data', (data) => {
+    child.stdout.on("data", (data) => {
       stdoutData += data.toString();
     });
 
-    child.stderr.on('data', (data) => {
+    child.stderr.on("data", (data) => {
       stderrData += data.toString();
     });
 
-    // This event is fired if the command cannot be spawned, etc.
-    child.on('error', (err) => {
+    child.on("error", (err) => {
       reject(err);
     });
 
-    // Use the 'close' event to ensure all I/O streams are closed.
-    child.on('close', (code) => {
-      // The exit code can be null; default to 0 for success if so.
+    child.on("close", (code) => {
       const exitCode = code ?? 0;
-
       resolve({
-        output: (exitCode === 0) ? stdoutData : stderrData,
+        output: stdoutData,
+        error: stderrData,
         status: exitCode,
       });
     });
