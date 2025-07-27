@@ -3,7 +3,7 @@ import plugin from "@typescript-eslint/eslint-plugin";
 
 export default [
   {
-    files: ["src/**/*.{js,ts}"],
+    files: ["server/**/*.{js,ts}"],
     languageOptions: {
       parser,
       ecmaVersion: 2021,

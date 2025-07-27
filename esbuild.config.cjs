@@ -1,7 +1,7 @@
 const { build } = require("esbuild");
 
 build({
-  entryPoints: ["src/index.ts", "src/repl.ts"],
+  entryPoints: ["server/index.ts", "server/repl.ts"],
   bundle: true,
   platform: "node",
   target: "node16",
