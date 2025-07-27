@@ -1,4 +1,5 @@
-# MCP Server for Commodore 64 BASIC and Assembly Development
+# mcp-c64
+An MCP server for developing assembly and BASIC programs for the Commodore 64
 
 ## Status
 * Optimal C64 development stack
