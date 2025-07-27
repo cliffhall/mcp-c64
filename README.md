@@ -1,12 +1,15 @@
-# MCP Server for Commodore 64 Assembly Development
+# MCP Server for Commodore 64 BASIC and Assembly Development
 
 ## Status
-* C64 development setup working (`64tass` assembler, `VICE` C64 emulator, `petcat` BASIC tokenizer/detokenizer)
-* REPL, A minimal command line client for interacting directly with the MCP server.
+* Optimal C64 development stack
+  * Emulator: [`VICE`](https://vice-emu.sourceforge.io/manual/vice.pdf)
+  * Assembler: [`64tass`](https://tass64.sourceforge.net/) 
+  * Tokenizer: [`petcat`](https://vice-emu.sourceforge.io/vice_toc.html#TOC390)
+* REPL - A minimal command line client for interacting directly with the MCP server.
 * MCP Server working with the ability to:
   * Assemble 6502 assembly language programs to .prg format
   * Tokenize BASIC programs to .prg format
-  * Launch .prg format in the emulator
+  * Launch and run .prg format programs in the emulator
 
 ## Local Setup
 ### Install

@@ -1,7 +1,6 @@
 ; ============================
 ; line_draw_library.asm
 ; C64 HIRES line drawing & stepping
-; Angle input is now scaled to 0-255 for 8-bit compatibility
 ; ============================
 
 ; ----------------------------
