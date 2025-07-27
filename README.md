@@ -40,8 +40,7 @@
   * `ASM_PATH`  - pointing to your assembly source folder
   * `BASIC_PATH`- pointing to your basic source folder
 
-
-#### Example **.env** file
+#### Example `.env` file
 ```bash
 ASSEMBLER=64tass
 TOKENIZER=/Users/zaphod/vice/bin/petcat
@@ -49,6 +48,45 @@ EMULATOR=/Users/zaphod/vice/x64sc.app/Contents/MacOS/x64sc
 
 ASM_PATH=./asm/hello
 BASIC_PATH=./basic/token
+```
+
+#### Example `mcp.json` file for Cursor
+```json
+{
+  "mcpServers": {
+    "server-name": {
+      "command": "npx",
+      "args": ["-y", "mcp-c64"],
+      "env": {
+        "ASSEMBLER": "64tass",
+        "TOKENIZER": "/Users/zaphod/vice/bin/petcat",
+        "EMULATOR": "/Users/zaphod/vice/x64sc.app/Contents/MacOS/x64sc",
+        "ASM_PATH": "/Users/zaphod/Projects/mcp-c64/asm/",
+        "BASIC_PATH": "/Users/zaphod/Projects/mcp-c64/basic/"
+      }
+    }
+  }
+}
+```
+
+#### Example configuration for Github Copilot
+```json
+{
+    "servers": {
+         "mcp-c64": {
+             "type": "stdio",
+             "command": "node",
+             "args": ["/Users/zaphod/Projects/mcp-c64/dist/index.js"],
+             "env": {
+                 "ASSEMBLER": "64tass",
+                 "TOKENIZER": "/Users/zaphod/vice/bin/petcat",
+                 "EMULATOR": "/Users/zaphod/vice/x64sc.app/Contents/MacOS/x64sc",
+                 "ASM_PATH": "/Users/zaphod/Projects/mcp-c64/asm/",
+                 "BASIC_PATH": "/Users/zaphod/Projects/mcp-c64/basic/"
+             }
+         }
+    }
+}
 ```
 
 ## The REPL
@@ -99,7 +137,7 @@ Available tools:
 #### The `assemble_program` tool
 
 * Usees `64tass` to assemble a 6502 assembly language program
-* To target the Commodore 64 using Unicode or standard ASCII input, include the `-a` and `-cbm-prg` options
+* To target the Commodore 64 using Unicode or standard ASCII input, include the `-a` and `-cbm-prg` arguments
 * Refer to the `64tass` [command line options reference](https://tass64.sourceforge.net/#commandline-options) for more info on configuring the assembler behaviors
 
 ```text
@@ -124,7 +162,7 @@ Tool result:
 #### The `tokenize_program` tool
 
 * Uses the `petcat` command included with the VICE emulator
-* To tokenize a Unicode or standard ASCII file for the C
+* To tokenize a Unicode or standard ASCII file for the Commodore 64, include the `-w2` argument
 * See the `petcat` [command line options reference](https://vice-emu.sourceforge.io/vice_16.html#SEC390) for more info on configuring the tokenizer input and output behavior
 * See the C64-Wiki for [PETSCII control characters](https://www.c64-wiki.com/wiki/control_character) that can be used in BASIC strings for such things as cursor movement and character color
 
@@ -137,6 +175,26 @@ Tool result:
   error: '\nLoad address 0801\nControl code set: enabled\n\n',
   status: 0
 }
+
+> 
+```
+
+
+#### The `run_program` tool
+
+* Uses the `x64sc` executable included with the VICE emulator package
+* To take a screenshot on exit, include the `-exitscreenshot` argument followed by a file name argument
+* See the `x64sc` [command line options reference](https://vice-emu.sourceforge.io/vice_2.html#SEC49) for more info on configuring the emulator behavior
+
+```text
+> call-tool run_program {"file":"token_test.prg", "path":"/Users/zaphod/Projects/mcp-c64/basic/token", "args": ["-exitscreenshot","token_test.png"]}
+Calling tool 'run_program' with args: {
+  file: 'token_test.prg',
+  path: '/Users/zaphod/Projects/mcp-c64/basic/token',
+  args: [ '-exitscreenshot', 'token_test.png' ]
+}
+Tool result:
+{ output: '', error: '', status: 0 }
 
 > 
 ```

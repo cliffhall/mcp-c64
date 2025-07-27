@@ -19,7 +19,8 @@ import {
   tokenizeProgram,
   TokenizeProgramParams,
   TokenizeProgramResponse
-} from "./operations/basic.js";
+} from "./operations/tokenizer.js";
+import {runProgram, RunProgramParams, RunProgramResponse, RunProgramSchema} from "./operations/emulator.js";
 
 export const createServer = () => {
   // Instantiate the MCP server
@@ -48,7 +49,13 @@ export const createServer = () => {
           name: "tokenize_program",
           description: `Tokenize a BASIC program.\n\tOnly the .bas source filename is required in file parameter, output .prg file will be generated.\n\tAny additional args such as -w2, etc. should be supplied in an array in the args parameter.`,
           inputSchema: zodToJsonSchema(TokenizeProgramSchema),
+        },
+        {
+          name: "run_program",
+          description: `Run an assembled or tokenized program.\n\tThe .prg filename is required in file parameter, and the program's path is required in path parameter.\n\tAny additional args such as -console, etc. should be supplied in an array in the args parameter.`,
+          inputSchema: zodToJsonSchema(RunProgramSchema),
         }
+
       ],
     };
   });
@@ -99,6 +106,30 @@ export const createServer = () => {
           };
 
           const result: TokenizeProgramResponse = await tokenizeProgram(operationParams);
+          return {
+            structuredContent: result,
+            content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+          };
+        }
+        case "run_program": {
+          // Process the parameters
+          const params = RunProgramSchema.parse(request.params.arguments);
+          const command = params.command ?? process.env.EMULATOR;
+          const path = params.path;
+          if (!command) {
+            throw new Error("Emulator command is not defined. Provide it in the call or set EMULATOR in the environment.");
+          }
+          if (!path) {
+            throw new Error("Executable program path is not defined.");
+          }
+          const operationParams: RunProgramParams = {
+            command,
+            path,
+            "file": params.file,
+            "args": params.args,
+          };
+
+          const result: RunProgramResponse = await runProgram(operationParams);
           return {
             structuredContent: result,
             content: [{ type: "text", text: JSON.stringify(result, null, 2) }],

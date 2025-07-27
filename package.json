@@ -1,7 +1,7 @@
 {
   "name": "mcp-c64",
-  "version": "0.1.0",
-  "description": "MCP Server for Commodore 64 Assembly Development",
+  "version": "0.3.0",
+  "description": "An MCP server for developing BASIC and Assembly Language programs for the Commodore 64",
   "license": "MIT",
   "author": "Cliff Hall",
   "type": "module",

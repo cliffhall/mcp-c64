@@ -6,4 +6,4 @@ dotenv.config({ path: `.env` });
 console.log(process.env.EMULATOR)
 
 // Launch VICE
-spawn(process.env.VICE, ["-autostart", "/Users/cliffhall/Projects/mcp-c64/basic/token/token_test.prg"]);
+spawn(process.env.EMULATOR, ["-autostart", "/Users/cliffhall/Projects/mcp-c64/basic/token/token_test.prg"]);

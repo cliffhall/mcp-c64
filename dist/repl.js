@@ -12537,7 +12537,7 @@ function isElectron() {
   return "type" in import_node_process.default;
 }
 
-// src/repl.ts
+// server/repl.ts
 var import_node_readline = require("node:readline");
 var readline = (0, import_node_readline.createInterface)({
   input: process.stdin,

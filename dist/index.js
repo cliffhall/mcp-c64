@@ -134,7 +134,7 @@ var require_main = __commonJS({
       return supportsAnsi() ? `\x1B[2m${text}\x1B[0m` : text;
     }
     var LINE = /(?:^|^)\s*(?:export\s+)?([\w.-]+)(?:\s*=\s*?|:\s+?)(\s*'(?:\\'|[^'])*'|\s*"(?:\\"|[^"])*"|\s*`(?:\\`|[^`])*`|[^#\r\n]+)?\s*(?:#.*)?(?:$|$)/mg;
-    function parse3(src) {
+    function parse4(src) {
       const obj = {};
       let lines = src.toString();
       lines = lines.replace(/\r\n?/mg, "\n");
@@ -406,7 +406,7 @@ var require_main = __commonJS({
       _parseVault,
       config,
       decrypt,
-      parse: parse3,
+      parse: parse4,
       populate
     };
     module2.exports.configDotenv = DotenvModule.configDotenv;
@@ -943,7 +943,7 @@ var require_uri_all = __commonJS({
       }
       var URI_PARSE = /^(?:([^:\/?#]+):)?(?:\/\/((?:([^\/?#@]*)@)?(\[[^\/?#\]]+\]|[^\/?#:]*)(?:\:(\d*))?))?([^?#]*)(?:\?([^#]*))?(?:#((?:.|\n|\r)*))?/i;
       var NO_MATCH_IS_UNDEFINED = "".match(/(){0}/)[1] === void 0;
-      function parse3(uriString) {
+      function parse4(uriString) {
         var options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
         var components = {};
         var protocol = options.iri !== false ? IRI_PROTOCOL : URI_PROTOCOL;
@@ -1112,8 +1112,8 @@ var require_uri_all = __commonJS({
         var skipNormalization = arguments[3];
         var target = {};
         if (!skipNormalization) {
-          base2 = parse3(serialize(base2, options), options);
-          relative = parse3(serialize(relative, options), options);
+          base2 = parse4(serialize(base2, options), options);
+          relative = parse4(serialize(relative, options), options);
         }
         options = options || {};
         if (!options.tolerant && relative.scheme) {
@@ -1164,24 +1164,24 @@ var require_uri_all = __commonJS({
       }
       function resolve(baseURI, relativeURI, options) {
         var schemelessOptions = assign({ scheme: "null" }, options);
-        return serialize(resolveComponents(parse3(baseURI, schemelessOptions), parse3(relativeURI, schemelessOptions), schemelessOptions, true), schemelessOptions);
+        return serialize(resolveComponents(parse4(baseURI, schemelessOptions), parse4(relativeURI, schemelessOptions), schemelessOptions, true), schemelessOptions);
       }
       function normalize(uri, options) {
         if (typeof uri === "string") {
-          uri = serialize(parse3(uri, options), options);
+          uri = serialize(parse4(uri, options), options);
         } else if (typeOf(uri) === "object") {
-          uri = parse3(serialize(uri, options), options);
+          uri = parse4(serialize(uri, options), options);
         }
         return uri;
       }
       function equal(uriA, uriB, options) {
         if (typeof uriA === "string") {
-          uriA = serialize(parse3(uriA, options), options);
+          uriA = serialize(parse4(uriA, options), options);
         } else if (typeOf(uriA) === "object") {
           uriA = serialize(uriA, options);
         }
         if (typeof uriB === "string") {
-          uriB = serialize(parse3(uriB, options), options);
+          uriB = serialize(parse4(uriB, options), options);
         } else if (typeOf(uriB) === "object") {
           uriB = serialize(uriB, options);
         }
@@ -1196,7 +1196,7 @@ var require_uri_all = __commonJS({
       var handler = {
         scheme: "http",
         domainHost: true,
-        parse: function parse4(components, options) {
+        parse: function parse5(components, options) {
           if (!components.host) {
             components.error = components.error || "HTTP URIs must have a host.";
           }
@@ -1225,7 +1225,7 @@ var require_uri_all = __commonJS({
       var handler$2 = {
         scheme: "ws",
         domainHost: true,
-        parse: function parse4(components, options) {
+        parse: function parse5(components, options) {
           var wsComponents = components;
           wsComponents.secure = isSecure(wsComponents);
           wsComponents.resourceName = (wsComponents.path || "/") + (wsComponents.query ? "?" + wsComponents.query : "");
@@ -1398,7 +1398,7 @@ var require_uri_all = __commonJS({
       var UUID = /^[0-9A-Fa-f]{8}(?:\-[0-9A-Fa-f]{4}){3}\-[0-9A-Fa-f]{12}$/;
       var handler$6 = {
         scheme: "urn:uuid",
-        parse: function parse4(urnComponents, options) {
+        parse: function parse5(urnComponents, options) {
           var uuidComponents = urnComponents;
           uuidComponents.uuid = uuidComponents.nss;
           uuidComponents.nss = void 0;
@@ -1423,7 +1423,7 @@ var require_uri_all = __commonJS({
       exports3.SCHEMES = SCHEMES;
       exports3.pctEncChar = pctEncChar;
       exports3.pctDecChars = pctDecChars;
-      exports3.parse = parse3;
+      exports3.parse = parse4;
       exports3.removeDotSegments = removeDotSegments;
       exports3.serialize = serialize;
       exports3.resolveComponents = resolveComponents;
@@ -11716,7 +11716,7 @@ var StdioServerTransport = class {
   }
 };
 
-// src/mcp-c64.ts
+// server/mcp-c64.ts
 var import_dotenv = __toESM(require_main(), 1);
 
 // node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
@@ -13581,10 +13581,10 @@ var zodToJsonSchema = (schema, options) => {
   return combined;
 };
 
-// src/common/version.ts
+// server/common/version.ts
 var VERSION = "0.1.0";
 
-// src/operations/assembler.ts
+// server/operations/assembler.ts
 var import_child_process = require("child_process");
 var import_path = require("path");
 var AssembleProgramSchema = external_exports.object({
@@ -13637,7 +13637,7 @@ function assembleProgram({
   });
 }
 
-// src/operations/basic.ts
+// server/operations/tokenizer.ts
 var import_child_process2 = require("child_process");
 var import_path2 = require("path");
 var TokenizeProgramSchema = external_exports.object({
@@ -13659,13 +13659,7 @@ function tokenizeProgram({
     const name = (0, import_path2.parse)(file).name;
     const source = (0, import_path2.join)(path, file);
     const output = (0, import_path2.join)(path, `${name}.prg`);
-    const child = (0, import_child_process2.spawn)(command, [
-      ...commandArgs,
-      "-o",
-      output,
-      "--",
-      source
-    ]);
+    const child = (0, import_child_process2.spawn)(command, [...commandArgs, "-o", output, "--", source]);
     let stdoutData = "";
     let stderrData = "";
     child.stdout.on("data", (data) => {
@@ -13688,7 +13682,50 @@ function tokenizeProgram({
   });
 }
 
-// src/mcp-c64.ts
+// server/operations/emulator.ts
+var import_child_process3 = require("child_process");
+var import_path3 = require("path");
+var RunProgramSchema = external_exports.object({
+  // 'file' and path are the only truly required parameters from the caller.
+  file: external_exports.string().nonempty("File is required"),
+  path: external_exports.string().nonempty("Path is required"),
+  // These are optional overrides.
+  command: external_exports.string().nonempty().optional(),
+  args: external_exports.array(external_exports.string()).optional()
+});
+function runProgram({
+  command,
+  path,
+  file,
+  args
+}) {
+  return new Promise((resolve, reject) => {
+    const commandArgs = args ?? [];
+    const program = (0, import_path3.join)(path, file);
+    const child = (0, import_child_process3.spawn)(command, [...commandArgs, "-chdir", path, "-autostart", file]);
+    let stdoutData = "";
+    let stderrData = "";
+    child.stdout.on("data", (data) => {
+      stdoutData += data.toString();
+    });
+    child.stderr.on("data", (data) => {
+      stderrData += data.toString();
+    });
+    child.on("error", (err) => {
+      reject(err);
+    });
+    child.on("close", (code) => {
+      const exitCode = code ?? 0;
+      resolve({
+        output: stdoutData,
+        error: stderrData,
+        status: exitCode
+      });
+    });
+  });
+}
+
+// server/mcp-c64.ts
 import_dotenv.default.config({ path: `.env`, quiet: true });
 var createServer = () => {
   const server2 = new Server(
@@ -13718,6 +13755,13 @@ var createServer = () => {
 	Only the .bas source filename is required in file parameter, output .prg file will be generated.
 	Any additional args such as -w2, etc. should be supplied in an array in the args parameter.`,
           inputSchema: zodToJsonSchema(TokenizeProgramSchema)
+        },
+        {
+          name: "run_program",
+          description: `Run an assembled or tokenized program.
+	The .prg filename is required in file parameter, and the program's path is required in path parameter.
+	Any additional args such as -console, etc. should be supplied in an array in the args parameter.`,
+          inputSchema: zodToJsonSchema(RunProgramSchema)
         }
       ]
     };
@@ -13769,6 +13813,28 @@ var createServer = () => {
             content: [{ type: "text", text: JSON.stringify(result, null, 2) }]
           };
         }
+        case "run_program": {
+          const params = RunProgramSchema.parse(request.params.arguments);
+          const command = params.command ?? process.env.EMULATOR;
+          const path = params.path;
+          if (!command) {
+            throw new Error("Emulator command is not defined. Provide it in the call or set EMULATOR in the environment.");
+          }
+          if (!path) {
+            throw new Error("Executable program path is not defined.");
+          }
+          const operationParams = {
+            command,
+            path,
+            "file": params.file,
+            "args": params.args
+          };
+          const result = await runProgram(operationParams);
+          return {
+            structuredContent: result,
+            content: [{ type: "text", text: JSON.stringify(result, null, 2) }]
+          };
+        }
         default:
           throw new Error(`Unknown tool: ${request.params.name}`);
       }
@@ -13781,7 +13847,7 @@ var createServer = () => {
   return { server: server2 };
 };
 
-// src/index.ts
+// server/index.ts
 var { server } = createServer();
 async function runServer() {
   const transport = new StdioServerTransport();
