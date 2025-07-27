@@ -134,7 +134,7 @@ Available tools:
 * Allows you to call a tool on the MCP server just as the LLM would
 * You pass the tool name and its arguments as a JSON string
 
-#### The `assemble_program` tool
+#### `assemble_program` tool
 
 * Usees `64tass` to assemble a 6502 assembly language program
 * To target the Commodore 64 using Unicode or standard ASCII input, include the `-a` and `-cbm-prg` arguments
@@ -159,7 +159,7 @@ Tool result:
 >
 ```
 
-#### The `tokenize_program` tool
+#### `tokenize_program` tool
 
 * Uses the `petcat` command included with the VICE emulator
 * To tokenize a Unicode or standard ASCII file for the Commodore 64, include the `-w2` argument
@@ -180,7 +180,7 @@ Tool result:
 ```
 
 
-#### The `run_program` tool
+#### `run_program` tool
 
 * Uses the `x64sc` executable included with the VICE emulator package
 * To take a screenshot on exit, include the `-exitscreenshot` argument followed by a file name argument
