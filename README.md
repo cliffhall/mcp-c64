@@ -136,7 +136,7 @@ Available tools:
 
 #### `assemble_program` tool
 
-* Usees `64tass` to assemble a 6502 assembly language program
+* Uses `64tass` to assemble a 6502 assembly language program
 * To target the Commodore 64 using Unicode or standard ASCII input, include the `-a` and `-cbm-prg` arguments
 * Refer to the `64tass` [command line options reference](https://tass64.sourceforge.net/#commandline-options) for more info on configuring the assembler behaviors
 
