@@ -122,7 +122,6 @@ async function connect(url?: string): Promise<void> {
     client.onerror = errorHandler;
 
     const command = "node";
-    console.log(`STDIO transport: command=${command}`);
 
     const transport = new StdioClientTransport({
       command,
@@ -146,7 +145,7 @@ async function connect(url?: string): Promise<void> {
 
     // Connect the client
     await client.connect(transport);
-    console.log("Connected to mcp-c64 server");
+    console.log("Connected to mcp-c64 server via STDIO transport");
   } catch (error) {
     if (error instanceof Error) errorHandler(error);
     client = null;
