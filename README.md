@@ -1,7 +1,7 @@
 # mcp-c64
 ![mcp-c64 logo](docs/mcp-c64-small.png)
 
-## An MCP server for developing assembly and BASIC programs for the Commodore 64
+## An MCP server for developing BASIC and Assembly Language programs for the Commodore 64
 
 * Optimal C64 development stack
   * Emulator: [`VICE`](https://vice-emu.sourceforge.io/manual/vice.pdf)
