@@ -1,4 +1,5 @@
 # mcp-c64
+![mcp-c64 logo](docs/mcp-c64-small.png)
 An MCP server for developing assembly and BASIC programs for the Commodore 64
 
 ## Status
