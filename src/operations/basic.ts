@@ -41,13 +41,7 @@ export function tokenizeProgram({
     const source = join(path, file);
     const output = join(path, `${name}.prg`);
 
-    const child = spawn(command, [
-      ...commandArgs,
-      "-o",
-      output,
-      "--",
-      source
-    ]);
+    const child = spawn(command, [...commandArgs, "-o", output, "--", source]);
 
     let stdoutData = "";
     let stderrData = "";
