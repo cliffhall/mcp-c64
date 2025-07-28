@@ -54,9 +54,9 @@ BASIC_PATH=./basic/token
 ```json
 {
   "mcpServers": {
-    "@futurescale/mcp-c64": {
+    "mcp-c64": {
       "command": "npx",
-      "args": ["-y", "@futurescale/mcp-c64"],
+      "args": ["-y", "mcp-c64"],
       "env": {
         "ASSEMBLER": "64tass",
         "TOKENIZER": "/Users/zaphod/vice/bin/petcat",
@@ -74,12 +74,12 @@ BASIC_PATH=./basic/token
 {
   "mcp": {
 	"servers": {
-      "@futurescale/mcp-c64": {
+      "mcp-c64": {
         "type": "stdio",
 		"command": "npx",
 		"args": [
 		  "-y",
-		  "@futurescale/mcp-c64"
+		  "mcp-c64"
 		],
 		"env": {
 		  "ASSEMBLER": "64tass",
@@ -97,10 +97,10 @@ BASIC_PATH=./basic/token
 ```json
 {
     "servers": {
-         "@futurescale/mcp-c64": {
+         "mcp-c64": {
              "type": "stdio",
              "command": "npx",
-             "args": ["-y", "@futurescale/mcp-c64"],
+             "args": ["-y", "mcp-c64"],
              "env": {
                  "ASSEMBLER": "64tass",
                  "TOKENIZER": "/Users/zaphod/vice/bin/petcat",
