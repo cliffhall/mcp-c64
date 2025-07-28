@@ -1,6 +1,6 @@
 {
   "name": "mcp-c64",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "description": "An MCP server for developing BASIC and Assembly Language programs for the Commodore 64",
   "license": "MIT",
   "author": {
@@ -16,7 +16,7 @@
   "type": "module",
   "main": "index.js",
   "files": [
-    "dist/index.js"
+    "dist"
   ],
   "bin": {
     "mcp-c64": "dist/index.js"
