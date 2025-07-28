@@ -12,7 +12,14 @@
   "bin": {
     "mcp-c64": "dist/index.js"
   },
-  
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cliffhall/mcp-c64.git"
+  },
+  "homepage": "https://futurescale.com",
+  "bugs": {
+    "url": "https://github.com/cliffhall/mcp-c64/issues"
+  },
   "scripts": {
     "build": "node esbuild.config.cjs && echo '{\"type\": \"commonjs\"}' > dist/package.json",
     "inspector": "npx @modelcontextprotocol/inspector",

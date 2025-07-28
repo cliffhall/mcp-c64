@@ -118,15 +118,19 @@ Available commands:
 
 ```text
 > list-tools
-Available tools:
-- assemble_program: Assemble an assembly language program.
-    Only the .asm source filename is required in file parameter, output .prg and .map files will be generated.
-    Any additional args such as -a, -cbm-prg, etc. should be supplied in an array in the args parameter.
-- tokenize_program: Tokenize a BASIC program.
-    Only the .bas source filename is required in file parameter, output .prg file will be generated.
-    Any additional args such as -w2, etc. should be supplied in an array in the args parameter.
 
-> 
+Available tools:
+  - assemble_program: Assemble an assembly language program.
+        Only the .asm source filename is required in file parameter, output .prg and .map files will be generated.
+        Any additional args such as -a, -cbm-prg, etc. should be supplied in an array in the args parameter.
+  - tokenize_program: Tokenize a BASIC program.
+        Only the .bas source filename is required in file parameter, output .prg file will be generated.
+        Any additional args such as -w2, etc. should be supplied in an array in the args parameter.
+  - run_program: Run an assembled or tokenized program.
+        The .prg filename is required in file parameter, and the program's path is required in path parameter.
+        Any additional args such as -console, etc. should be supplied in an array in the args parameter.
+        
+>
 ```
 
 ### The call-tool command
@@ -171,7 +175,7 @@ Tool result:
 Calling tool 'tokenize_program' with args: { file: 'token_test.bas', args: [ '-w2', '-v' ] }
 Tool result:
 {
-  output: '/Users/cliffhall/Projects/mcp-c64\n',
+  output: '/Users/zaphod/Projects/mcp-c64\n',
   error: '\nLoad address 0801\nControl code set: enabled\n\n',
   status: 0
 }
