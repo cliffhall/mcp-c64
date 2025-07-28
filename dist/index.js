@@ -13582,7 +13582,7 @@ var zodToJsonSchema = (schema, options) => {
 };
 
 // server/common/version.ts
-var VERSION = "0.5.4";
+var VERSION = "0.5.5";
 
 // server/operations/assembler.ts
 var import_child_process = require("child_process");

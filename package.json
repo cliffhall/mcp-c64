@@ -1,6 +1,6 @@
 {
   "name": "mcp-c64",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "An MCP server for developing BASIC and Assembly Language programs for the Commodore 64",
   "license": "MIT",
   "author": {
@@ -29,6 +29,14 @@
   "bugs": {
     "url": "https://github.com/cliffhall/mcp-c64/issues"
   },
+  "keywords": [
+    "c64",
+    "BASIC",
+    "6502",
+    "assembly",
+    "retro-computing",
+    "mcp"
+  ],
   "scripts": {
     "build": "node esbuild.config.cjs && echo '{\"type\": \"commonjs\"}' > dist/package.json",
     "inspector": "npx @modelcontextprotocol/inspector",
