@@ -54,26 +54,50 @@ BASIC_PATH=./basic/token
 ```json
 {
   "mcpServers": {
-    "server-name": {
+    "@futurescale/mcp-c64": {
       "command": "npx",
       "args": ["-y", "@futurescale/mcp-c64"],
       "env": {
         "ASSEMBLER": "64tass",
         "TOKENIZER": "/Users/zaphod/vice/bin/petcat",
         "EMULATOR": "/Users/zaphod/vice/x64sc.app/Contents/MacOS/x64sc",
-        "ASM_PATH": "/Users/zaphod/Projects/mcp-c64/asm/",
-        "BASIC_PATH": "/Users/zaphod/Projects/mcp-c64/basic/"
+        "ASM_PATH": "/Users/zaphod/Projects/retro-game/asm/",
+        "BASIC_PATH": "/Users/zaphod/Projects/retro-game/basic/"
       }
     }
   }
 }
 ```
 
+#### Example `mcp.json` file for VSCode
+```json
+{
+  "mcp": {
+	"servers": {
+      "@futurescale/mcp-c64": {
+        "type": "stdio",
+		"command": "npx",
+		"args": [
+		  "-y",
+		  "@futurescale/mcp-c64"
+		],
+		"env": {
+		  "ASSEMBLER": "64tass",
+		  "TOKENIZER": "/Users/zaphod/vice/bin/petcat",
+		  "EMULATOR": "/Users/zaphod/vice/x64sc.app/Contents/MacOS/x64sc",
+		  "ASM_PATH": "/Users/zaphod/Projects/retro-game/asm/",
+		  "BASIC_PATH": "/Users/zaphod/Projects/retro-game/basic/"
+		}
+	  }
+	}
+  }
+}
+```
 #### Example configuration for Github Copilot
 ```json
 {
     "servers": {
-         "mcp-c64": {
+         "@futurescale/mcp-c64": {
              "type": "stdio",
              "command": "npx",
              "args": ["-y", "@futurescale/mcp-c64"],
@@ -81,8 +105,8 @@ BASIC_PATH=./basic/token
                  "ASSEMBLER": "64tass",
                  "TOKENIZER": "/Users/zaphod/vice/bin/petcat",
                  "EMULATOR": "/Users/zaphod/vice/x64sc.app/Contents/MacOS/x64sc",
-                 "ASM_PATH": "/Users/zaphod/Projects/mcp-c64/asm/",
-                 "BASIC_PATH": "/Users/zaphod/Projects/mcp-c64/basic/"
+                 "ASM_PATH": "/Users/zaphod/Projects/retro-game/asm/",
+                 "BASIC_PATH": "/Users/zaphod/Projects/retro-game/basic/"
              }
          }
     }
