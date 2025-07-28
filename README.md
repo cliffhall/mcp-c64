@@ -13,7 +13,7 @@
   * Tokenize BASIC programs to .prg format
   * Launch and run .prg format programs in the emulator
 
-## Local Setup
+# REQUIREMENTS
 ### Install
 * **Node + npm** - Javascript runtime environment
   * <a href="https://nodejs.org/en/download" target="_blank">Install</a> the latest stable Node release (comes with npm).
@@ -31,14 +31,14 @@
     
 ### Configure
 #### Create **.env** file
-  * Create file `.env`  in the root of the project by copying `.env-example` 
-  * **NOTE**: It will not be stored in your git repo
+  * Create file `.env`  in the root of your project.
+    * If you have downloaded the project source, you can copy `.env-example` 
   * Add / modify vars
-  * `ASSEMBLER` - pointing to the `64tass` assembler executable (full path if not in PATH)
-  * `TOKENIZER` - pointing to the `petcat` tokenizer executable (full path if not in PATH)
-  * `EMULATOR`  - pointing to the `x64sc` emulator executable (full path if not in PATH)
-  * `ASM_PATH`  - pointing to your assembly source folder
-  * `BASIC_PATH`- pointing to your basic source folder
+    * `ASSEMBLER` - pointing to the `64tass` assembler executable (full path if not in PATH)
+    * `TOKENIZER` - pointing to the `petcat` tokenizer executable (full path if not in PATH)
+    * `EMULATOR`  - pointing to the `x64sc` emulator executable (full path if not in PATH)
+    * `ASM_PATH`  - pointing to your assembly source folder
+    * `BASIC_PATH`- pointing to your basic source folder
 
 #### Example `.env` file
 ```bash
@@ -56,7 +56,7 @@ BASIC_PATH=./basic/token
   "mcpServers": {
     "server-name": {
       "command": "npx",
-      "args": ["-y", "mcp-c64"],
+      "args": ["-y", "@futurescale/mcp-c64"],
       "env": {
         "ASSEMBLER": "64tass",
         "TOKENIZER": "/Users/zaphod/vice/bin/petcat",
@@ -75,8 +75,8 @@ BASIC_PATH=./basic/token
     "servers": {
          "mcp-c64": {
              "type": "stdio",
-             "command": "node",
-             "args": ["/Users/zaphod/Projects/mcp-c64/dist/index.js"],
+             "command": "npx",
+             "args": ["-y", "@futurescale/mcp-c64"],
              "env": {
                  "ASSEMBLER": "64tass",
                  "TOKENIZER": "/Users/zaphod/vice/bin/petcat",

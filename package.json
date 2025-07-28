@@ -1,6 +1,6 @@
 {
   "name": "@futurescale/mcp-c64",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "An MCP server for developing BASIC and Assembly Language programs for the Commodore 64",
   "license": "MIT",
   "author": "Cliff Hall",
