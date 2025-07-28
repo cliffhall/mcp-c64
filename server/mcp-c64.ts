@@ -13,7 +13,7 @@ import {
   assembleProgram,
   AssembleProgramParams,
   AssembleProgramResponse
-} from "./operations/assembler.ts";
+} from "./operations/assembler.js";
 import {
   TokenizeProgramSchema,
   tokenizeProgram,

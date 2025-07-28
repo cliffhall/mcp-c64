@@ -1,6 +1,6 @@
 {
   "name": "mcp-c64",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "description": "An MCP server for developing BASIC and Assembly Language programs for the Commodore 64",
   "license": "MIT",
   "author": {
@@ -16,7 +16,7 @@
   "type": "module",
   "main": "index.js",
   "files": [
-    "dist"
+    "dist/index.js"
   ],
   "bin": {
     "mcp-c64": "dist/index.js"
@@ -38,7 +38,7 @@
     "mcp"
   ],
   "scripts": {
-    "build": "node esbuild.config.cjs && echo '{\"type\": \"commonjs\"}' > dist/package.json",
+    "build": "tsc",
     "inspector": "npx @modelcontextprotocol/inspector",
     "tass": "cd asm/hello && 64tass --cbm-prg -a hello-world.asm -o hello-world.prg --map hello-world.map && cd ../..",
     "vice": "node launch-vice.js",

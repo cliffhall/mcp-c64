@@ -1,5 +1,4 @@
 import { spawn } from "child_process";
-import { join, parse } from "path";
 import { z } from "zod";
 
 export const RunProgramSchema = z.object({
@@ -36,10 +35,13 @@ export function runProgram({
 }: RunProgramParams): Promise<RunProgramResponse> {
   return new Promise((resolve, reject) => {
     const commandArgs = args ?? [];
-
-    const program = join(path, file);
-
-    const child = spawn(command, [...commandArgs, "-chdir", path, "-autostart", file]);
+    const child = spawn(command, [
+      ...commandArgs,
+      "-chdir",
+      path,
+      "-autostart",
+      file,
+    ]);
 
     let stdoutData = "";
     let stderrData = "";
