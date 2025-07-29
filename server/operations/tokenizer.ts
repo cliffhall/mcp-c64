@@ -3,11 +3,10 @@ import { join, parse } from "path";
 import { z } from "zod";
 
 export const TokenizeProgramSchema = z.object({
-  // 'file' is the only truly required parameter from the caller.
-  file: z.string().nonempty("File is required"),
+  // 'filename' is the only truly required parameter from the caller.
+  filename: z.string().nonempty("File is required"),
 
   // These are optional overrides.
-  command: z.string().nonempty().optional(),
   path: z.string().nonempty().optional(),
   args: z.array(z.string()).optional(),
 });
@@ -19,9 +18,8 @@ export interface TokenizeProgramResponse {
 }
 
 export interface TokenizeProgramParams {
-  command: string;
+  filename: string;
   path: string;
-  file: string;
   args?: string[];
 }
 
@@ -29,16 +27,15 @@ export interface TokenizeProgramParams {
  * Tokenize a program
  */
 export function tokenizeProgram({
-  command,
   path,
-  file,
+                                  filename,
   args,
 }: TokenizeProgramParams): Promise<TokenizeProgramResponse> {
   return new Promise((resolve, reject) => {
     const commandArgs = args ?? [];
-
-    const name = parse(file).name;
-    const source = join(path, file);
+    const command:string = process.env.TOKENIZER!;
+    const name = parse(filename).name;
+    const source = join(path, filename);
     const output = join(path, `${name}.prg`);
 
     const child = spawn(command, [...commandArgs, "-o", output, "--", source]);

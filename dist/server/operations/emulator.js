@@ -1,25 +1,25 @@
 import { spawn } from "child_process";
 import { z } from "zod";
 export const RunProgramSchema = z.object({
-    // 'file' and path are the only truly required parameters from the caller.
-    file: z.string().nonempty("File is required"),
+    // 'filename' and 'path' are the only truly required parameters from the caller.
+    filename: z.string().nonempty("Filename is required"),
     path: z.string().nonempty("Path is required"),
     // These are optional overrides.
-    command: z.string().nonempty().optional(),
     args: z.array(z.string()).optional(),
 });
 /**
  * Run a program
  */
-export function runProgram({ command, path, file, args, }) {
+export function runProgram({ path, filename, args, }) {
     return new Promise((resolve, reject) => {
         const commandArgs = args ?? [];
+        const command = process.env.EMULATOR;
         const child = spawn(command, [
             ...commandArgs,
             "-chdir",
             path,
             "-autostart",
-            file,
+            filename,
         ]);
         let stdoutData = "";
         let stderrData = "";

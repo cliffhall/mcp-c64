@@ -2,4 +2,6 @@
 .env
 **/*.prg
 **/*.map
+**/*.log
+
 node_modules

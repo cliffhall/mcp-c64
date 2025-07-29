@@ -45,19 +45,19 @@ export const createServer = () => {
                 case "assemble_program": {
                     // Process the parameters
                     const params = AssembleProgramSchema.parse(request.params.arguments);
-                    const command = params.command ?? process.env.ASSEMBLER;
-                    const path = params.path ?? process.env.ASM_PATH;
+                    const command = process.env.ASSEMBLER;
+                    const path = params.path ?? process.env.ASM_PATH ?? process.cwd();
+                    const args = params.args ?? ["-a", "--cbm-prg"];
                     if (!command) {
-                        throw new Error("Assembler command is not defined. Provide it in the call or set ASSEMBLER in the environment.");
+                        throw new Error("Assembler command is not defined. Provide it as ASSEMBLER in the environment.");
                     }
                     if (!path) {
                         throw new Error("Assembly source path is not defined. Provide it in the call or set ASM_PATH in the environment.");
                     }
                     const operationParams = {
-                        command,
                         path,
-                        "file": params.file,
-                        "args": params.args,
+                        "filename": params.filename,
+                        "args": args,
                     };
                     const result = await assembleProgram(operationParams);
                     return {
@@ -68,19 +68,19 @@ export const createServer = () => {
                 case "tokenize_program": {
                     // Process the parameters
                     const params = TokenizeProgramSchema.parse(request.params.arguments);
-                    const command = params.command ?? process.env.TOKENIZER;
-                    const path = params.path ?? process.env.BASIC_PATH;
+                    const command = process.env.TOKENIZER;
+                    const path = params.path ?? process.env.BASIC_PATH ?? process.cwd();
+                    const args = params.args ?? ["-w2"];
                     if (!command) {
-                        throw new Error("Tokenizer command is not defined. Provide it in the call or set TOKENIZER in the environment.");
+                        throw new Error("Tokenizer command is not defined. Provide it as TOKENIZER in the environment.");
                     }
                     if (!path) {
-                        throw new Error("BASIC source path is not defined. Provide it in the call or set ASM_PATH in the environment.");
+                        throw new Error("BASIC source path is not defined. Provide it in the call or set BASIC_PATH in the environment.");
                     }
                     const operationParams = {
-                        command,
                         path,
-                        "file": params.file,
-                        "args": params.args,
+                        "filename": params.filename,
+                        "args": args,
                     };
                     const result = await tokenizeProgram(operationParams);
                     return {
@@ -91,18 +91,17 @@ export const createServer = () => {
                 case "run_program": {
                     // Process the parameters
                     const params = RunProgramSchema.parse(request.params.arguments);
-                    const command = params.command ?? process.env.EMULATOR;
+                    const command = process.env.EMULATOR;
                     const path = params.path;
                     if (!command) {
-                        throw new Error("Emulator command is not defined. Provide it in the call or set EMULATOR in the environment.");
+                        throw new Error("Emulator command is not defined. Provide it as EMULATOR in the environment.");
                     }
                     if (!path) {
                         throw new Error("Executable program path is not defined.");
                     }
                     const operationParams = {
-                        command,
                         path,
-                        "file": params.file,
+                        "filename": params.filename,
                         "args": params.args,
                     };
                     const result = await runProgram(operationParams);
