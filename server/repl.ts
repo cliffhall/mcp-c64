@@ -125,7 +125,7 @@ async function connect(url?: string): Promise<void> {
 
     const transport = new StdioClientTransport({
       command,
-      args: ["dist/index.js"],
+      args: ["dist/server/index.js"],
       stderr: "pipe",
     });
 

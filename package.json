@@ -1,6 +1,6 @@
 {
   "name": "mcp-c64",
-  "version": "0.5.8",
+  "version": "0.5.11",
   "description": "An MCP server for developing BASIC and Assembly Language programs for the Commodore 64",
   "license": "MIT",
   "author": {
@@ -14,12 +14,12 @@
     "registry": "https://registry.npmjs.org/"
   },
   "type": "module",
-  "main": "index.js",
+  "module": ".dist/server/index.js",
   "files": [
     "dist"
   ],
   "bin": {
-    "mcp-c64": "dist/index.js"
+    "mcp-c64": "dist/server/index.js"
   },
   "repository": {
     "type": "git",
@@ -38,11 +38,12 @@
     "mcp"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "npm run clean && tsc && shx chmod +x dist/*.js",
+    "clean": "rm -rf dist",
     "inspector": "npx @modelcontextprotocol/inspector",
     "tass": "cd asm/hello && 64tass --cbm-prg -a hello-world.asm -o hello-world.prg --map hello-world.map && cd ../..",
     "vice": "node launch-vice.js",
-    "repl": "node dist/repl.js",
+    "repl": "node dist/server/repl.js",
     "prettier-fix": "prettier --write server/**/*.ts",
     "prettier-check": "prettier --check server/**/*.ts"
   },
@@ -52,6 +53,7 @@
     "@types/node-fetch": "^2.6.12",
     "@typescript-eslint/eslint-plugin": "^8.24.0",
     "@typescript-eslint/parser": "^8.24.0",
+    "@types/node": "^24.0.15",
     "esbuild": "^0.25.0",
     "eslint": "^9.20.1",
     "jest": "^29.7.0",
@@ -62,7 +64,6 @@
   "dependencies": {
     "@modelcontextprotocol/inspector": "^0.16.1",
     "@modelcontextprotocol/sdk": "^1.16.0",
-    "@types/node": "^24.0.15",
     "spawn-rx": "^5.1.2",
     "dotenv": "^17.2.0"
   }

@@ -103,7 +103,7 @@ async function connect(url) {
         const command = "node";
         const transport = new StdioClientTransport({
             command,
-            args: ["dist/index.js"],
+            args: ["dist/server/index.js"],
             stderr: "pipe",
         });
         // Set up notification handlers
