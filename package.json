@@ -1,6 +1,6 @@
 {
   "name": "mcp-c64",
-  "version": "0.5.11",
+  "version": "0.5.12",
   "description": "An MCP server for developing BASIC and Assembly Language programs for the Commodore 64",
   "license": "MIT",
   "author": {
@@ -38,7 +38,7 @@
     "mcp"
   ],
   "scripts": {
-    "build": "npm run clean && tsc && shx chmod +x dist/*.js",
+    "build": "npm run clean && tsc && shx chmod +x dist/server/index.js && shx chmod +x dist/server/repl.js",
     "clean": "rm -rf dist",
     "inspector": "npx @modelcontextprotocol/inspector",
     "tass": "cd asm/hello && 64tass --cbm-prg -a hello-world.asm -o hello-world.prg --map hello-world.map && cd ../..",
@@ -58,6 +58,7 @@
     "eslint": "^9.20.1",
     "jest": "^29.7.0",
     "prettier": "^3.5.1",
+    "shx": "^0.3.4",
     "ts-jest": "^29.2.5",
     "typescript": "^5.7.3"
   },
