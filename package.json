@@ -1,6 +1,6 @@
 {
   "name": "mcp-c64",
-  "version": "0.5.12",
+  "version": "0.5.13",
   "description": "An MCP server for developing BASIC and Assembly Language programs for the Commodore 64",
   "license": "MIT",
   "author": {
