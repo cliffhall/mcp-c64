@@ -199,7 +199,7 @@ Tool result:
 Calling tool 'tokenize_program' with args: { file: 'token_test.bas', args: [ '-w2', '-v' ] }
 Tool result:
 {
-  output: '/Users/zaphod/Projects/mcp-c64\n',
+  output: '/Users/zaphod/Projects/retro-game\n',
   error: '\nLoad address 0801\nControl code set: enabled\n\n',
   status: 0
 }
@@ -215,10 +215,10 @@ Tool result:
 * See the `x64sc` [command line options reference](https://vice-emu.sourceforge.io/vice_2.html#SEC49) for more info on configuring the emulator behavior
 
 ```text
-> call-tool run_program {"file":"token_test.prg", "path":"/Users/zaphod/Projects/mcp-c64/basic/token", "args": ["-exitscreenshot","token_test.png"]}
+> call-tool run_program {"file":"token_test.prg", "path":"/Users/zaphod/Projects/retro-game/basic/token", "args": ["-exitscreenshot","token_test.png"]}
 Calling tool 'run_program' with args: {
   file: 'token_test.prg',
-  path: '/Users/zaphod/Projects/mcp-c64/basic/token',
+  path: '/Users/zaphod/Projects/retro-game/basic/token',
   args: [ '-exitscreenshot', 'token_test.png' ]
 }
 Tool result:
