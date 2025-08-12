@@ -1,5 +1,5 @@
 # mcp-c64
-![mcp-c64 logo](docs/mcp-c64-small.png)
+![mcp-c64 logo](mcp-c64-small.png)
 
 ## An MCP server for developing BASIC and Assembly Language programs for the Commodore 64
 
