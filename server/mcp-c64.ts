@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config({ path: `.env`, quiet: true });
+if (process.env.DEV_MODE) dotenv.config({ path: `.env`, quiet: true });
 
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { zodToJsonSchema } from "zod-to-json-schema";

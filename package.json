@@ -43,7 +43,7 @@
     "inspector": "npx @modelcontextprotocol/inspector",
     "tass": "cd asm/hello && 64tass --cbm-prg -a hello-world.asm -o hello-world.prg --map hello-world.map && cd ../..",
     "vice": "node launch-vice.js",
-    "repl": "node dist/server/repl.js",
+    "repl": "DEV_MODE=true node dist/server/repl.js",
     "prettier-fix": "prettier --write server/**/*.ts",
     "prettier-check": "prettier --check server/**/*.ts"
   },
